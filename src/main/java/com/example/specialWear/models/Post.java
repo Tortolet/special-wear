@@ -1,4 +1,4 @@
-package com.example.practica.models;
+package com.example.specialWear.models;
 
 public enum Post {
     POST_DEFAULT;

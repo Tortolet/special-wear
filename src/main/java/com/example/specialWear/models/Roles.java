@@ -1,4 +1,4 @@
-package com.example.practica.models;
+package com.example.specialWear.models;
 
 public enum Roles {
     ROLE_USER,

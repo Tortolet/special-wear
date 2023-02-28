@@ -1,7 +1,7 @@
-package com.example.practica;
+package com.example.specialWear;
 
-import com.example.practica.models.SpecialWears;
-import com.example.practica.repos.SpecialWearsRepo;
+import com.example.specialWear.models.SpecialWears;
+import com.example.specialWear.repos.SpecialWearsRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

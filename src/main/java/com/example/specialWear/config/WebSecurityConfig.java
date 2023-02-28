@@ -1,4 +1,4 @@
-package com.example.practica.config;
+package com.example.specialWear.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

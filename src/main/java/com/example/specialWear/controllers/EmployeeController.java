@@ -1,7 +1,7 @@
-package com.example.practica.controllers;
+package com.example.specialWear.controllers;
 
-import com.example.practica.models.Employees;
-import com.example.practica.repos.EmployeesRepo;
+import com.example.specialWear.models.Employees;
+import com.example.specialWear.repos.EmployeesRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,6 +1,6 @@
-package com.example.practica.repos;
+package com.example.specialWear.repos;
 
-import com.example.practica.models.SpecialWears;
+import com.example.specialWear.models.SpecialWears;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

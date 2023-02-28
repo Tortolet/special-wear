@@ -1,4 +1,4 @@
-package com.example.practica;
+package com.example.specialWear;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

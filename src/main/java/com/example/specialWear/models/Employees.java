@@ -1,4 +1,4 @@
-package com.example.practica.models;
+package com.example.specialWear.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
