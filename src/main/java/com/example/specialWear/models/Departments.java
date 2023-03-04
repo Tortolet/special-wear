@@ -1,9 +1,12 @@
 package com.example.specialWear.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Departments {
 
     @Id
@@ -11,15 +14,19 @@ public class Departments {
     private Long id;
 
     @NotNull
+    @NotEmpty
     private String name;
 
     @NotNull
+    @NotEmpty
     private String firstNameDirector;
 
     @NotNull
+    @NotEmpty
     private String secondNameDirector;
 
     @NotNull
+    @NotEmpty
     private String lastNameDirector;
 
     public Departments() {

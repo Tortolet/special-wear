@@ -1,25 +1,32 @@
 package com.example.specialWear.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Usages {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Employees employee;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private SpecialWears specialWear;
 
     // заполняется автоматически
+    @NotNull
     private Date dateStartUsed = new Date(System.currentTimeMillis());
 
+    @NotNull
     private Date dateStopUse; // в сервисе добавить сохранение времени через specialWear
 
     private boolean employeeAgree;

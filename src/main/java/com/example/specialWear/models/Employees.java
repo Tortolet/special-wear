@@ -1,11 +1,15 @@
 package com.example.specialWear.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.Set;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Employees {
 
     @Id
@@ -13,25 +17,30 @@ public class Employees {
     private Long id;
 
     @NotNull
+    @NotEmpty
     private String firstName;
 
     @NotNull
+    @NotEmpty
     private String secondName;
 
     @NotNull
+    @NotEmpty
     private String lastName;
 
+    @Email
     @NotNull
+    @NotEmpty
     private String email;
 
+    @NotNull
     @ElementCollection(targetClass = Post.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "employee_post", joinColumns = @JoinColumn(name = "employee_id"))
     @Enumerated(EnumType.STRING)
     private Set<Post> posts;
 
     @NotNull
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "department_id", referencedColumnName = "id", unique = true)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Departments departments;
 
     @NotNull
