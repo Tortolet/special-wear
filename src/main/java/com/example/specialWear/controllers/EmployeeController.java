@@ -29,12 +29,17 @@ public class EmployeeController {
         return employeeService.addEmployee(employees, departments, allEmployees);
     }
 
-
-    @GetMapping("/get_user_by_id")
-    public ResponseEntity<?> getEmployeeById(@RequestHeader Long employeeId){
-        if(employeeService.findEmployeesById(employeeId).getId() == null){
+    @GetMapping("/get_employee_by_id")
+    public ResponseEntity<Employees> getEmployeeById(@RequestHeader Long employeeId){
+        Employees employee =  employeeService.findEmployeesById(employeeId);
+        if(employee.getId() == null){
             throw new EmployeeNotFound("Работник не найден");
         }
-        return ResponseEntity.ok().body(employeeService.findEmployeesById(employeeId));
+        return ResponseEntity.ok().body(employee);
+    }
+
+    @GetMapping("/get_employees")
+    public ResponseEntity<List<Employees>> getAllEmployees(){
+        return ResponseEntity.ok().body(employeeService.allEmployees());
     }
 }

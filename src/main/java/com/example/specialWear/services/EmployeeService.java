@@ -46,7 +46,7 @@ public class EmployeeService {
                 || employees.getSecondName().isEmpty()
                 || employees.getLastName().isEmpty()
                 || employees.getEmail().isEmpty()){
-            throw new EmployeeIsEmptyFields("Некоторые поля незаполнены");
+            throw new EmployeeIsEmptyFields("Некоторые поля незаполненны");
         }
 
         for (var allEmployee : allEmployees) {
