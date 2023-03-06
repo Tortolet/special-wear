@@ -3,8 +3,10 @@ package com.example.specialWear.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -21,16 +23,17 @@ public class SpecialWears {
     @Enumerated(EnumType.STRING)
     private Set<TypeOfWear> typeSpecialWear;
 
-//    private Date dateStart = new Date(System.currentTimeMillis());
-//
-//
-//    private Date dateEnd = new Date(dateStart.getYear(), dateStart.getMonth() + 6, dateStart.getDay(), dateStart.getHours(), dateStart.getMinutes());
+    private LocalDateTime dateStart;
+
+    private LocalDateTime dateEnd;
 
     @Max(12)
-    @NotNull
+    @Min(message = "Необходимо начинать с 1", value = 1)
+    @Column(nullable = false)
     private int wear_period_month;
 
-    @NotNull
+    @Min(message = "Необходимо начинать с 1", value = 1)
+    @Column(nullable = false)
     private int cost;
 
     public SpecialWears() {
@@ -44,21 +47,21 @@ public class SpecialWears {
         this.id = id;
     }
 
-//    public Date getDateStart() {
-//        return dateStart;
-//    }
-//
-//    public void setDateStart(Date dateStart) {
-//        this.dateStart = dateStart;
-//    }
-//
-//    public Date getDateEnd() {
-//        return dateEnd;
-//    }
-//
-//    public void setDateEnd(Date dateEnd) {
-//        this.dateEnd = dateEnd;
-//    }
+    public LocalDateTime getDateStart() {
+        return dateStart;
+    }
+
+    public void setDateStart(LocalDateTime dateStart) {
+        this.dateStart = dateStart;
+    }
+
+    public LocalDateTime getDateEnd() {
+        return dateEnd;
+    }
+
+    public void setDateEnd(LocalDateTime dateEnd) {
+        this.dateEnd = dateEnd;
+    }
 
     public int getCost() {
         return cost;

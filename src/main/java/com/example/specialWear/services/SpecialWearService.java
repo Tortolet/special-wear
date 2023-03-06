@@ -5,6 +5,7 @@ import com.example.specialWear.repos.SpecialWearRepo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,13 @@ public class SpecialWearService {
     }
 
     public void save(SpecialWears specialWears){
+
+        LocalDateTime startDate = LocalDateTime.now();
+        specialWears.setDateStart(startDate);
+
+        LocalDateTime endDate = LocalDateTime.now().plusMonths(specialWears.getWear_period_month());
+        specialWears.setDateEnd(endDate);
+
         specialWearRepo.save(specialWears);
     }
 
