@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
@@ -22,12 +22,9 @@ public class Usages {
     @ManyToOne(fetch = FetchType.LAZY)
     private SpecialWears specialWear;
 
-    // заполняется автоматически
-    @NotNull
-    private Date dateStartUsed = new Date(System.currentTimeMillis());
+    private LocalDateTime dateStartUsed;
 
-    @NotNull
-    private Date dateStopUse; // в сервисе добавить сохранение времени через specialWear
+    private LocalDateTime dateStopUse;
 
     private boolean employeeAgree;
 
@@ -58,11 +55,11 @@ public class Usages {
         this.specialWear = specialWear;
     }
 
-    public Date getDateStartUsed() {
+    public LocalDateTime getDateStartUsed() {
         return dateStartUsed;
     }
 
-    public void setDateStartUsed(Date dateStartUsed) {
+    public void setDateStartUsed(LocalDateTime dateStartUsed) {
         this.dateStartUsed = dateStartUsed;
     }
 
@@ -74,11 +71,11 @@ public class Usages {
         this.employeeAgree = employeeAgree;
     }
 
-    public Date getDateStopUse() {
+    public LocalDateTime getDateStopUse() {
         return dateStopUse;
     }
 
-    public void setDateStopUse(Date dateStopUse) {
+    public void setDateStopUse(LocalDateTime dateStopUse) {
         this.dateStopUse = dateStopUse;
     }
 }

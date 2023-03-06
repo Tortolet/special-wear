@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
@@ -12,10 +13,13 @@ import java.util.Set;
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class SpecialWears {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotEmpty
+    @NotNull
+    private String wearName;
 
     @NotNull
     @ElementCollection(targetClass = TypeOfWear.class, fetch = FetchType.EAGER)
@@ -85,5 +89,13 @@ public class SpecialWears {
 
     public void setWear_period_month(int wear_period_month) {
         this.wear_period_month = wear_period_month;
+    }
+
+    public void setWearName(String wearName) {
+        this.wearName = wearName;
+    }
+
+    public String getWearName() {
+        return wearName;
     }
 }
