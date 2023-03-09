@@ -24,6 +24,10 @@ public class Users {
     @Enumerated(EnumType.STRING)
     private Set<Roles> roles;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "employee_id", referencedColumnName = "id", unique = true)
+    private Employees employee;
+
     // TODO: Добавить cart (ManyToMany with SpecialWears)
 
     public Users() {
@@ -75,5 +79,13 @@ public class Users {
 
     public void setRoles(Set<Roles> roles) {
         this.roles = roles;
+    }
+
+    public Employees getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employees employee) {
+        this.employee = employee;
     }
 }

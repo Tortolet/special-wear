@@ -6,15 +6,13 @@ import com.example.specialWear.exceptions.EmployeeIsEmptyFields;
 import com.example.specialWear.exceptions.UserAlreadyExist;
 import com.example.specialWear.models.Departments;
 import com.example.specialWear.models.Employees;
+import com.example.specialWear.models.Roles;
 import com.example.specialWear.models.Users;
 import com.example.specialWear.repos.EmployeesRepo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class EmployeeService {
@@ -23,9 +21,12 @@ public class EmployeeService {
 
     private final UserService userService;
 
-    public EmployeeService(EmployeesRepo employeesRepo, UserService userService) {
+    private final DefaultEmailService defaultEmailService;
+
+    public EmployeeService(EmployeesRepo employeesRepo, UserService userService, DefaultEmailService defaultEmailService) {
         this.employeesRepo = employeesRepo;
         this.userService = userService;
+        this.defaultEmailService = defaultEmailService;
     }
 
     public void save(Employees employees){
@@ -64,8 +65,6 @@ public class EmployeeService {
             }
         }
 
-        // 1. Вариант без связей
-
         Users user = new Users();
 
         String username = employees.getEmail().substring(0, employees.getEmail().indexOf("@"));
@@ -77,8 +76,14 @@ public class EmployeeService {
             throw new UserAlreadyExist("Пользователь уже существует");
         }
 
+        user.setRoles(Collections.singleton(Roles.ROLE_EMPLOYEE));
+        user.setEmployee(employees);
         userService.save(user);
         System.out.println(password);
+
+        defaultEmailService.sendSimpleEmail(employees.getEmail(),
+                "Логин и пароль",
+                "Ваш логин: " + username  + ". Ваш пароль: " + password);
 
         this.save(employees);
         return ResponseEntity.ok().body(employees);
