@@ -33,6 +33,6 @@ function addUser(){
 
             //alert(test.message);
             console.log(`Тест: ${test.message}`);
-            error.innerHTML = `<div class="alert alert-danger">${test.message}</div>`
+            error.innerHTML = `<div class="form-control alert alert-danger">${test.message}</div>`
         });
 }
