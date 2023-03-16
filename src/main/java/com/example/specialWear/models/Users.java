@@ -2,6 +2,7 @@ package com.example.specialWear.models;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,6 +20,8 @@ public class Users {
 
     private boolean active;
 
+    private String avatar;
+
     @ElementCollection(targetClass = Roles.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
@@ -27,6 +30,14 @@ public class Users {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id", referencedColumnName = "id", unique = true)
     private Employees employee;
+
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(
+            name = "cart",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "special_wear_id") }
+    )
+    private Set<SpecialWears> cart = new HashSet<>();
 
     // TODO: Добавить cart (ManyToMany with SpecialWears)
 
@@ -87,5 +98,21 @@ public class Users {
 
     public void setEmployee(Employees employee) {
         this.employee = employee;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public Set<SpecialWears> getCart() {
+        return cart;
+    }
+
+    public void setCart(Set<SpecialWears> cart) {
+        this.cart = cart;
     }
 }

@@ -38,7 +38,15 @@ public class SpecialWears {
 
     @Min(message = "Необходимо начинать с 1", value = 1)
     @Column(nullable = false)
-    private int cost;
+    private float cost;
+
+    @NotEmpty
+    @NotNull
+    private String desc;
+
+    @NotEmpty
+    @NotNull
+    private String filename;
 
     public SpecialWears() {
     }
@@ -67,11 +75,11 @@ public class SpecialWears {
         this.dateEnd = dateEnd;
     }
 
-    public int getCost() {
+    public float getCost() {
         return cost;
     }
 
-    public void setCost(int cost) {
+    public void setCost(float cost) {
         this.cost = cost;
     }
 
@@ -97,5 +105,21 @@ public class SpecialWears {
 
     public String getWearName() {
         return wearName;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }
