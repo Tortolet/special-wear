@@ -12,6 +12,8 @@ let cost;
 let desc;
 let filename;
 
+let sizeValue;
+
 fetch("http://localhost:8080/api/get_wear_by_id", {
         method: 'GET',
         headers: {
@@ -59,6 +61,17 @@ fetch("http://localhost:8080/api/get_wear_by_id", {
                     <div class="ref-description mt-4">${desc}</div>
                 </div>
             </div>`
+
+        const but = document.getElementById('buyButton')
+        const toastLive = document.getElementById('liveToast')
+        const selectSize = document.getElementById('sizes')
+        but.addEventListener('click', function (){
+            const toast = new bootstrap.Toast(toastLive)
+            toast.show()
+            sizeValue = selectSize.value
+            addToCart()
+        })
+
     })
 
 fetch("http://localhost:8080/api/get_wear_size_count", {
@@ -92,15 +105,15 @@ fetch("http://localhost:8080/api/get_wear_size_count", {
                 option.disabled = true;
             }
         }
-        if(sizes.length === 0) {
-            buyButton.style.cssText = 'pointer-events: none; box-shadow: 0 0.5rem 1rem rgb(90 27 34);'
-            buyButton.classList.add('text-bg-danger')
-            buyButton.textContent = 'Ошибка'
-        }
         if(count === data.length){
             buyButton.style.cssText = 'pointer-events: none; box-shadow: 0 0.5rem 1rem rgb(90 27 34);'
             buyButton.classList.add('text-bg-danger')
             buyButton.textContent = 'Нет в наличии'
+        }
+        if(sizes.length === 0) {
+            buyButton.style.cssText = 'pointer-events: none; box-shadow: 0 0.5rem 1rem rgb(90 27 34);'
+            buyButton.classList.add('text-bg-danger')
+            buyButton.textContent = 'Ошибка'
         }
     })
     .catch(response => {
@@ -114,3 +127,33 @@ fetch("http://localhost:8080/api/get_wear_size_count", {
                       </div>
               </main>`)
     })
+
+function addToCart(){
+    fetch("http://localhost:8080/api/add_to_cart", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'specialWearId': product,
+            'size' : sizeValue
+        }
+    })
+        .then(response => {
+            if(!response.ok){
+                return response.text().then(text => { throw Error(text)})
+            }
+            return response.text()
+        })
+        .then(data => {
+            console.log(data);
+        })
+        .catch(response => {
+            console.log("user is null")
+
+            const toast = document.getElementById('liveToast')
+            toast.classList.replace('text-bg-success', 'text-bg-danger')
+
+            const toastText = document.getElementById('toastText')
+            toastText.textContent = 'Вам необходимо авторизоваться!'
+        })
+}

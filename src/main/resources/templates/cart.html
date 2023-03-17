@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdn.reflowhq.com/v2/toolkit.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
 </head>
+
 <body>
 <nav class="navbar navbar-dark navbar-expand-md sticky-top py-3" id="mainNav">
     <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span class="bs-icon-sm bs-icon-circle bs-icon-primary shadow d-flex justify-content-center align-items-center me-2 bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-bezier">
@@ -19,7 +20,7 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" th:href="@{/}">Главная</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/products}">Одежда</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/cart}">Корзина</a></li>
+                <li class="nav-item"><a class="nav-link active" href="#">Корзина</a></li>
             </ul><a class="btn btn-primary shadow" role="button" sec:authorize="!isAuthenticated()" th:href="@{/registration}">Регистрация</a>
             <ul sec:authorize="isAuthenticated()" class="nav" style="margin-left: -15px">
                 <li class="nav-item dropdown">
@@ -39,12 +40,35 @@
     </div>
 </nav>
 <div id="errors"></div>
-<section class="py-5">
-    <div class="container py-5">
-        <div id="product">
+<div class="container my-5">
+    <div class="row mb-4 mb-lg-5">
+        <div class="col-md-8 col-xl-6 text-center mx-auto">
+            <h2 class="fw-bold">Корзина</h2>
+            <p id="cartEmpty"></p>
         </div>
     </div>
-</section>
+    <!-- Section: Design block -->
+    <section class="">
+        <div class="row gx-lg-5">
+            <div class="col-lg-8 mb-4 mb-md-0">
+                <!-- Section: Product list -->
+                <section class="mb-5" id="cartItems">
+
+                </section>
+                <!-- Section: Product list -->
+            </div>
+
+            <div class="col-lg-4 mb-4 mb-md-0">
+                <!-- Section: Summary -->
+                <section class="shadow-4 p-4 rounded-5 mb-4" id="summary">
+
+                </section>
+                <!-- Section: Summary -->
+            </div>
+        </div>
+    </section>
+    <!-- Section: Design block -->
+</div>
 <footer class="bg-dark">
     <div class="container py-4 py-lg-5">
         <div class="row justify-content-center">
@@ -97,21 +121,11 @@
         </div>
     </div>
 </footer>
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div class="toast align-items-center text-bg-success border-0" id="liveToast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-            <div class="toast-body" id="toastText">
-                Вы успешно добавили товар в корзину!
-            </div>
-            <button type="button" class="btn-close btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-    </div>
-</div>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/bs-init.js"></script>
 <script src="/js/bold-and-dark.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script src="/js/product.js"></script>
+<script src="/js/cart.js"></script>
 </body>
 
 </html>

@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface SizeCountRepo extends JpaRepository<SizeCount, Long> {
     List<SizeCount> findBySpecialWears(SpecialWears specialWears);
+
+    SizeCount findBySpecialWearsAndSize(SpecialWears specialWears, String size);
 }

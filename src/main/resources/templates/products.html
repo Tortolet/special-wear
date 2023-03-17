@@ -16,11 +16,24 @@
                     </svg></span><span>TortWear</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link active" th:href="@{/}">Главная</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Одежда</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Корзина</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/}">Главная</a></li>
+                <li class="nav-item"><a class="nav-link active" th:href="@{/products}">Одежда</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/cart}">Корзина</a></li>
             </ul><a class="btn btn-primary shadow" role="button" sec:authorize="!isAuthenticated()" th:href="@{/registration}">Регистрация</a>
-            </ul><a class="nav-link" role="button" sec:authorize="isAuthenticated()" sec:authentication="name" href="#"></a>
+            <ul sec:authorize="isAuthenticated()" class="nav" style="margin-left: -15px">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" style=" color: #c9c9c9" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false" sec:authentication="name"></a>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                        <li><a href="/" class="dropdown-item" style="border-radius: 7px">Профиль</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form action="/logout" method="post">
+                                <input type="submit" value="Выйти" class="dropdown-item link-danger" style="border-radius: 7px"/>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>

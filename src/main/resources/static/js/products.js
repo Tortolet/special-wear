@@ -29,14 +29,14 @@ fetch('http://localhost:8080/api/get_wears')
                                 <p class="card-text">${desc}</p>
                                 <p><b class="text-white">${cost}₽</b></p>
                         </a>
-                                <button id="cart" class="btn btn-primary mt-auto" type="button">Добавить в корзину</button>
+<!--                                <button id="cart" class="btn btn-primary mt-auto" type="button">Добавить в корзину</button>-->
                             </div>
                         
                     </div>
                 </div>`
         }
-        const elems = document.querySelectorAll('#cart');
-        for(let j = 0; j < data.length; j++){
-            elems[j].addEventListener("click", function () { console.log(data[j].id); }, true)
-        }
+        // const elems = document.querySelectorAll('#cart');
+        // for(let j = 0; j < data.length; j++){
+        //     elems[j].addEventListener("click", function () { console.log(data[j].id); }, true)
+        // }
     });

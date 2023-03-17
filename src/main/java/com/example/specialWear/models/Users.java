@@ -2,6 +2,7 @@ package com.example.specialWear.models;
 
 import jakarta.persistence.*;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,13 +36,25 @@ public class Users {
     @JoinTable(
             name = "cart",
             joinColumns = { @JoinColumn(name = "user_id") },
-            inverseJoinColumns = { @JoinColumn(name = "special_wear_id") }
+            inverseJoinColumns = { @JoinColumn(name = "size_special_wear_id") }
     )
-    private Set<SpecialWears> cart = new HashSet<>();
+    private Set<SizeCount> cart = new HashSet<>();
 
     // TODO: Добавить cart (ManyToMany with SpecialWears)
 
     public Users() {
+    }
+
+    public void addWear(SizeCount specialWear){
+        this.cart.add(specialWear);
+    }
+
+    public void removeWear(SizeCount specialWear){
+        this.cart.remove(specialWear);
+    }
+
+    public void removeAll(){
+        this.cart.removeAll(this.getCart());
     }
 
     public Long getId() {
@@ -108,11 +121,11 @@ public class Users {
         this.avatar = avatar;
     }
 
-    public Set<SpecialWears> getCart() {
+    public Set<SizeCount> getCart() {
         return cart;
     }
 
-    public void setCart(Set<SpecialWears> cart) {
+    public void setCart(Set<SizeCount> cart) {
         this.cart = cart;
     }
 }

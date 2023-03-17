@@ -21,7 +21,7 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link active" th:href="@{/}">Главная</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/products}">Одежда</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Корзина</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/cart}">Корзина</a></li>
             </ul><a class="btn btn-primary shadow" role="button" sec:authorize="!isAuthenticated()" th:href="@{/registration}">Регистрация</a>
             <ul sec:authorize="isAuthenticated()" class="nav" style="margin-left: -15px">
                 <li class="nav-item dropdown">
