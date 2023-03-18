@@ -119,6 +119,11 @@ public class SpecialWearController {
             cartHistory.setUser(user);
             cartHistory.setSizeCount(sizes.get(i));
             cartHistoryRepo.save(cartHistory);
+
+            if(sizes.get(i).getCount() > 0){
+                sizes.get(i).setCount(sizes.get(i).getCount() - 1);
+                sizeCountRepo.save(sizes.get(i));
+            }
         }
 
         user.removeAll();
