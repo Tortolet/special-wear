@@ -39,6 +39,10 @@ fetch("http://localhost:8080/api/get_wear_by_id", {
         //
         // console.log(type)
 
+        if(filename.length <= 0){
+            filename = 'default.jpg'
+        }
+
         productInfo.innerHTML =
             `<div class="reflow-product">
                 <div class="ref-media">

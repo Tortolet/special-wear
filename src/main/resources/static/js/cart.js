@@ -29,6 +29,10 @@ fetch('http://localhost:8080/api/get_cart_items')
             let wearName = data[i].specialWears.wearName
             let wear_period_month = data[i].specialWears.wear_period_month
 
+            if(filename.length <= 0){
+                filename = 'default.jpg'
+            }
+
             item.innerHTML +=
                 `<div class="row border-bottom mb-4">
                         <div class="col-md-2 mb-4 mb-md-0">

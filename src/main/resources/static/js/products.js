@@ -19,6 +19,10 @@ fetch('http://localhost:8080/api/get_wears')
             let wearName = data[i].wearName;
             let wear_period_month = data[i].wear_period_month;
 
+            if(filename.length <= 0){
+                filename = 'default.jpg'
+            }
+
             item.innerHTML +=
                 `<div class="col">
                     <div class="card bg-dark h-100">

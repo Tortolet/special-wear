@@ -1,10 +1,12 @@
 package com.example.specialWear.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class SizeCount {
 
     @Id

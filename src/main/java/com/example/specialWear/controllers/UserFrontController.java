@@ -10,4 +10,9 @@ public class UserFrontController {
     public String registration(){
         return "registration";
     }
+
+    @GetMapping("/profile")
+    public String showProfile(){
+        return "profile";
+    }
 }

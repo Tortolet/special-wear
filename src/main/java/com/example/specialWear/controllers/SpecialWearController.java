@@ -1,13 +1,17 @@
 package com.example.specialWear.controllers;
 
+import com.example.specialWear.exceptions.CartIsEmpty;
 import com.example.specialWear.exceptions.SpecialWearNotFound;
 import com.example.specialWear.exceptions.UserNotFound;
+import com.example.specialWear.models.CartHistory;
 import com.example.specialWear.models.SizeCount;
 import com.example.specialWear.models.SpecialWears;
 import com.example.specialWear.models.Users;
+import com.example.specialWear.repos.CartHistoryRepo;
 import com.example.specialWear.repos.SizeCountRepo;
 import com.example.specialWear.repos.SpecialWearRepo;
 import com.example.specialWear.repos.UserRepo;
+import com.example.specialWear.services.GenerateOrderNumberService;
 import com.example.specialWear.services.SpecialWearService;
 import com.example.specialWear.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +32,16 @@ public class SpecialWearController {
     private SpecialWearService specialWearService;
 
     @Autowired
-    private SpecialWearRepo specialWearRepo;
-
-    @Autowired
     private SizeCountRepo sizeCountRepo;
 
     @Autowired
     private UserRepo userRepo;
 
     @Autowired
-    private UserService userService;
+    private CartHistoryRepo cartHistoryRepo;
+
+    @Autowired
+    private GenerateOrderNumberService generateOrderNumberService;
 
     @PostMapping("/add_spacial_wear")
     public ResponseEntity<SpecialWears> addNewSpecialWear(@RequestBody SpecialWears specialWears){
@@ -102,12 +106,26 @@ public class SpecialWearController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         Users user = userRepo.findByUsername(auth.getName());
+        List<SizeCount> sizes = new ArrayList<>(user.getCart());
+        String orderNumber = generateOrderNumberService.getOrderNumber();
+
+        if(user.getCart().size() == 0) {
+            throw new CartIsEmpty("Корзина пуста");
+        }
+
+        for (int i = 0; i < user.getCart().size(); i++) {
+            CartHistory cartHistory = new CartHistory();
+            cartHistory.setOrderNumber(orderNumber);
+            cartHistory.setUser(user);
+            cartHistory.setSizeCount(sizes.get(i));
+            cartHistoryRepo.save(cartHistory);
+        }
 
         user.removeAll();
 
         userRepo.save(user);
 
-        return ResponseEntity.ok().body("Вы убрали все из корзины");
+        return ResponseEntity.ok().body(orderNumber);
     }
 
     @GetMapping("/get_cart_items")
