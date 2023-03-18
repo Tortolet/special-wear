@@ -2,18 +2,15 @@ package com.example.specialWear.controllers;
 
 import com.example.specialWear.exceptions.CartIsEmpty;
 import com.example.specialWear.exceptions.SpecialWearNotFound;
-import com.example.specialWear.exceptions.UserNotFound;
 import com.example.specialWear.models.CartHistory;
 import com.example.specialWear.models.SizeCount;
 import com.example.specialWear.models.SpecialWears;
 import com.example.specialWear.models.Users;
 import com.example.specialWear.repos.CartHistoryRepo;
 import com.example.specialWear.repos.SizeCountRepo;
-import com.example.specialWear.repos.SpecialWearRepo;
 import com.example.specialWear.repos.UserRepo;
 import com.example.specialWear.services.GenerateOrderNumberService;
 import com.example.specialWear.services.SpecialWearService;
-import com.example.specialWear.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
