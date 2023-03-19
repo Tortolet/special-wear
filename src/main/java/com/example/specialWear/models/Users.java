@@ -25,6 +25,8 @@ public class Users {
 
     private String avatar;
 
+    private String info;
+
     @ElementCollection(targetClass = Roles.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
@@ -129,5 +131,13 @@ public class Users {
 
     public void setCart(Set<SizeCount> cart) {
         this.cart = cart;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 }
