@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
+    <script type="text/javascript" src="/js/panel.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/admin.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+
+</head>
+<style>
+    table.dataTable thead .sorting:after,
+    table.dataTable thead .sorting:before,
+    table.dataTable thead .sorting_asc:after,
+    table.dataTable thead .sorting_asc:before,
+    table.dataTable thead .sorting_asc_disabled:after,
+    table.dataTable thead .sorting_asc_disabled:before,
+    table.dataTable thead .sorting_desc:after,
+    table.dataTable thead .sorting_desc:before,
+    table.dataTable thead .sorting_desc_disabled:after,
+    table.dataTable thead .sorting_desc_disabled:before {
+        bottom: .5em;
+    }
+</style>
+
+<!--Modals-->
+<div class="modal fade" id="employeeEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark border border-primary shadow">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 text-white" id="exampleModalLabel">Редактирование сотрудника</h1>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="lastName" class="col-form-label text-white">Фамилия</label>
+                    <input type="text" class="form-control" id="lastName">
+                </div>
+                <div class="mb-3">
+                    <label for="firstName" class="col-form-label text-white">Имя</label>
+                    <input type="text" class="form-control" id="firstName">
+                </div>
+                <div class="mb-3">
+                    <label for="secondName" class="col-form-label text-white">Отчество</label>
+                    <input type="text" class="form-control" id="secondName">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="col-form-label text-white">Email</label>
+                    <input type="text" class="form-control" id="email">
+                </div>
+                <div class="mb-3">
+                    <label for="department" class="col-form-label text-white">Цех</label>
+                    <select class="form-select" aria-label="Default select example" id="department" >
+                        <option id="selectTheme" selected>Выберете цех</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="post" class="col-form-label text-white">Должность</label>
+                    <input type="text" class="form-control" id="post">
+                </div>
+                <div class="mb-3">
+                    <label for="sale" class="col-form-label text-white">Скидка</label>
+                    <input type="text" class="form-control" id="sale">
+                </div>
+                <input type="hidden" id="idEmployee">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary text-white" id="saveButton">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modals-->
+
+<div class="modal fade" id="deleteEmployee" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header border-bottom-0">
+                <h1 class="modal-title fs-5">Удаление сотрудника</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-0">
+                <p>Вы действительно хотите удалить данного сотрудника?</p>
+            </div>
+            <div class="modal-footer flex-column border-top-0">
+                <input type="hidden" id="idEmployeeToDelete">
+                    <input type="button" value="                                  Удалить                                  " class="btn btn-lg btn-danger w-100 mx-0 mb-2" id="deleteButton">
+                <button type="button" class="btn btn-lg btn-light w-100 mx-0 mb-2" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<body id="body-pd">
+<div class="l-navbar" id="nav-bar">
+    <nav class="nav">
+        <div> <a href="" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">TortWear</span> </a>
+            <div class="nav_list">
+                <a href="#employees_table" class="nav_link" id="employees">
+                    <i class='bx bx-grid-alt nav_icon'></i>
+                    <span class="nav_name">Работники</span>
+                </a>
+                <a href="#" class="nav_link">
+                    <i class='bx bx-user nav_icon'></i>
+                    <span class="nav_name">Пользователи</span>
+                </a>
+                <a href="#" class="nav_link">
+                    <i class='bx bx-message-square-detail nav_icon'></i>
+                    <span class="nav_name">Спец. одежда</span>
+                </a>
+                <a href="#" class="nav_link">
+                    <i class='bx bx-bookmark nav_icon'></i>
+                    <span class="nav_name">Использование</span>
+                </a>
+                <a href="#" class="nav_link">
+                    <i class='bx bx-folder nav_icon'></i>
+                    <span class="nav_name">Склад</span>
+                </a>
+                <a href="#" class="nav_link">
+                    <i class='bx bx-folder nav_icon'></i>
+                    <span class="nav_name">Цеха</span>
+                </a>
+                <a href="#" class="nav_link">
+                    <i class='bx bx-bar-chart-alt-2 nav_icon'></i>
+                    <span class="nav_name">Корзина</span>
+                </a>
+                <a href="#" class="nav_link">
+                    <i class='bx bx-bar-chart-alt-2 nav_icon'></i>
+                    <span class="nav_name">История заказов</span>
+                </a>
+            </div>
+        </div> <a href="/" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">Вернуться</span> </a>
+    </nav>
+</div>
+<!--Container Main start-->
+<div class="height-100" style="margin-top: 50px;">
+    <h4 id="naming">Админ панель</h4>
+    <div id="table">
+
+    </div>
+
+</div>
+<!--Container Main end-->
+
+
+</body>
+</html>

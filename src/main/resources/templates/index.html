@@ -27,7 +27,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" style=" color: #c9c9c9" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false" sec:authentication="name"></a>
                     <ul class="dropdown-menu dropdown-menu-dark">
-                        <li><a href="/" class="dropdown-item" style="border-radius: 7px">Профиль</a></li>
+                        <li><a th:href="@{/profile}" class="dropdown-item" style="border-radius: 7px">Профиль</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <form action="/logout" method="post">

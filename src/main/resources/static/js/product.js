@@ -14,37 +14,59 @@ let filename;
 
 let sizeValue;
 
-fetch("http://localhost:8080/api/get_wear_by_id", {
+let role;
+let sale;
+
+fetch('http://localhost:8080/api/get_user')
+    .then(response => response.json())
+    .then(data => {
+        console.log(data)
+        role = data.roles[0]
+        sale = data.employee.sale
+
+        getWear()
+    })
+    .catch(errror => getWear())
+
+function getWear(){
+    fetch("http://localhost:8080/api/get_wear_by_id", {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'specialWearId': product
         }
-})
-    .then(response => {
-        return response.json()
     })
-    .then(data => {
-        console.log(data);
+        .then(response => {
+            return response.json()
+        })
+        .then(data => {
+            console.log(data);
 
-        wearName = data.wearName;
-        type = data.typeSpecialWear[0];
-        cost = data.cost;
-        desc = data.desc;
-        filename = data.filename;
+            wearName = data.wearName;
+            type = data.typeSpecialWear[0];
+            cost = data.cost;
+            desc = data.desc;
+            filename = data.filename;
 
-        // if(type === 'DEFAULT')
-        //     type = 'Футболка'
-        //
-        // console.log(type)
 
-        if(filename.length <= 0){
-            filename = 'default.jpg'
-        }
+            // if(type === 'DEFAULT')
+            //     type = 'Футболка'
+            //
+            // console.log(type)
+            if(sale > 0) {
+                if (role !== 'ROLE_USER') {
+                    let fullPro = 100 - sale
+                    cost = cost * fullPro / 100
+                }
+            }
 
-        productInfo.innerHTML =
-            `<div class="reflow-product">
+            if(filename.length <= 0){
+                filename = 'default.jpg'
+            }
+
+            productInfo.innerHTML =
+                `<div class="reflow-product">
                 <div class="ref-media">
                     <div class="ref-preview"><img class="ref-image active" src="/image/${filename}" style="height: 100%"/></div>
                 </div>
@@ -66,71 +88,76 @@ fetch("http://localhost:8080/api/get_wear_by_id", {
                 </div>
             </div>`
 
-        const but = document.getElementById('buyButton')
-        const toastLive = document.getElementById('liveToast')
-        const selectSize = document.getElementById('sizes')
-        but.addEventListener('click', function (){
-            const toast = new bootstrap.Toast(toastLive)
-            toast.show()
-            sizeValue = selectSize.value
-            addToCart()
+            sizes()
+
+            const but = document.getElementById('buyButton')
+            const toastLive = document.getElementById('liveToast')
+            const selectSize = document.getElementById('sizes')
+            but.addEventListener('click', function (){
+                const toast = new bootstrap.Toast(toastLive)
+                toast.show()
+                sizeValue = selectSize.value
+                addToCart()
+            })
+
         })
+}
 
-    })
-
-fetch("http://localhost:8080/api/get_wear_size_count", {
-    method: 'GET',
-    headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'specialWearId': product
-    }
-})
-    .then(response => {
-        if(!response.ok){
-            return response.text().then(text => { throw Error(text)})
+function sizes() {
+    fetch("http://localhost:8080/api/get_wear_size_count", {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'specialWearId': product
         }
-        return response.json()
     })
-    .then(data => {
-        console.log(data);
-
-        const sizes = document.getElementById('sizes')
-        const buyButton = document.getElementById('buyButton')
-        let count = 0;
-        for(let i = 0; i < data.length; i++) {
-            if(data[i].count <= 0){
-                count++;
+        .then(response => {
+            if(!response.ok){
+                return response.text().then(text => { throw Error(text)})
             }
-            sizes.innerHTML +=
-                `<option id="size-${data[i].size}" value="${data[i].size}">${data[i].size}</option>`
-            if(data[i].count <= 0){
-                let option = document.getElementById(`size-${data[i].size}`);
-                option.disabled = true;
+            return response.json()
+        })
+        .then(data => {
+            console.log(data);
+
+            const sizes = document.getElementById('sizes')
+            const buyButton = document.getElementById('buyButton')
+            let count = 0;
+            for(let i = 0; i < data.length; i++) {
+                if(data[i].count <= 0){
+                    count++;
+                }
+                sizes.innerHTML +=
+                    `<option id="size-${data[i].size}" value="${data[i].size}">${data[i].size}</option>`
+                if(data[i].count <= 0){
+                    let option = document.getElementById(`size-${data[i].size}`);
+                    option.disabled = true;
+                }
             }
-        }
-        if(count === data.length){
-            buyButton.style.cssText = 'pointer-events: none; box-shadow: 0 0.5rem 1rem rgb(90 27 34);'
-            buyButton.classList.add('text-bg-danger')
-            buyButton.textContent = 'Нет в наличии'
-        }
-        if(sizes.length === 0) {
-            buyButton.style.cssText = 'pointer-events: none; box-shadow: 0 0.5rem 1rem rgb(90 27 34);'
-            buyButton.classList.add('text-bg-danger')
-            buyButton.textContent = 'Ошибка'
-        }
-    })
-    .catch(response => {
-        let test = JSON.parse(response.message);
-        console.log(`Тест: ${test.message}`);
-        $('#errors').html(
-            `<main class="flex-shrink-0">
+            if(count === data.length){
+                buyButton.style.cssText = 'pointer-events: none; box-shadow: 0 0.5rem 1rem rgb(90 27 34);'
+                buyButton.classList.add('text-bg-danger')
+                buyButton.textContent = 'Нет в наличии'
+            }
+            if(sizes.length === 0) {
+                buyButton.style.cssText = 'pointer-events: none; box-shadow: 0 0.5rem 1rem rgb(90 27 34);'
+                buyButton.classList.add('text-bg-danger')
+                buyButton.textContent = 'Ошибка'
+            }
+        })
+        .catch(response => {
+            let test = JSON.parse(response.message);
+            console.log(`Тест: ${test.message}`);
+            $('#errors').html(
+                `<main class="flex-shrink-0">
                       <div class="container">
                         <h1 class="mt-5">404</h1>
                         <p class="lead">${test.message}.</p>
                       </div>
               </main>`)
-    })
+        })
+}
 
 function addToCart(){
     fetch("http://localhost:8080/api/add_to_cart", {

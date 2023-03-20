@@ -37,7 +37,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" style=" color: #c9c9c9" href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false" sec:authentication="name"></a>
                     <ul class="dropdown-menu dropdown-menu-dark">
-                        <li><a href="/" class="dropdown-item" style="border-radius: 7px">Профиль</a></li>
+                        <li><a th:href="@{/profile}" class="dropdown-item" style="border-radius: 7px">Профиль</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <form action="/logout" method="post">
@@ -69,6 +69,86 @@
         </div>
     </div>
 </section>
+<div class="modal fade" id="usernameAndAboutMeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark border border-primary shadow">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Редактирование</h1>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="username" class="col-form-label">Логин</label>
+                        <input type="text" class="form-control" id="username" aria-describedby="usernameHelp" onkeyup="success()">
+                        <div id="usernameHelp" class="form-text text-white">При редактировании логина необходимо перезайти</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="aboutMe" class="col-form-label">Информация о себе</label>
+                        <textarea class="form-control" id="aboutMe"></textarea>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" id="saveButton">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark border border-primary shadow">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="passEdit">Редактирование пароля</h1>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3" id="errors">
+
+                </div>
+                <div class="mb-3">
+                    <label for="oldPass" class="col-form-label">Старый пароль</label>
+                    <input type="password" class="form-control" id="oldPass">
+                </div>
+                <div class="mb-3">
+                    <label for="newPass" class="col-form-label">Новый пароль</label>
+                    <input type="password" class="form-control" id="newPass">
+                </div>
+                <div class="mb-3">
+                    <label for="newPassConf" class="col-form-label">Подтвердите пароль</label>
+                    <input type="password" class="form-control" id="newPassConf">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" id="saveButtonPassword">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="avatarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark border border-primary shadow">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="avatarEdit">Изменить фотографию профиля</h1>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3" id="errorAvatar">
+
+                </div>
+                <div class="mb-3">
+                    <label for="file" class="col-form-label">Выберете файл</label>
+                    <input type="file" class="form-control" id="file" accept="image/png, image/jpeg">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" id="saveButtonFile">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 <footer class="bg-dark">
     <div class="container py-4 py-lg-5">
