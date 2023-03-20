@@ -1,8 +1,11 @@
 package com.example.specialWear.services;
 
+import com.example.specialWear.exceptions.UserNotFound;
 import com.example.specialWear.models.Roles;
 import com.example.specialWear.models.Users;
 import com.example.specialWear.repos.UserRepo;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +47,16 @@ public class UserService {
 
         user.setActive(true);
         user.setRoles(Collections.singleton(Roles.ROLE_USER));
+        user.setAvatar("default_avatar.jpg");
         return true;
+    }
+
+    public Users getUserFromAuth() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Users user = userRepository.findByUsername(auth.getName());
+        if(user.getId() == null){
+            throw new UserNotFound("Пользователь не найден");
+        }
+        return user;
     }
 }

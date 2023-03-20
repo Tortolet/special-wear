@@ -1,4 +1,4 @@
-
+const URL = "http://localhost:8080";
 const userInfo = document.getElementById('userInfo')
 const employeeInfo = document.getElementById('employeeInfo')
 const historyCard = document.getElementById('history')
@@ -41,15 +41,23 @@ fetch('http://localhost:8080/api/get_user')
         }
 
         if(roles !== 'ROLE_USER'){
+            let emailEmployee = data.employee.email
+            let firstName = data.employee.firstName
+            let secondName = data.employee.secondName
+            let lastName = data.employee.lastName
+            let post = data.employee.posts[0]
+            let departments = data.employee.departments.name
+            let sale = data.employee.sale
+
             employeeInfo.innerHTML =
                 `<div class="card mb-4 border-bottom border-top border-start border-end border-primary shadow">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <p class="mb-0">Full Name</p>
+                                    <p class="mb-0">Полное имя</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">Johnatan Smith</p>
+                                    <p class="text-muted mb-0">${lastName} ${firstName} ${secondName}</p>
                                 </div>
                             </div>
                             <hr>
@@ -58,34 +66,34 @@ fetch('http://localhost:8080/api/get_user')
                                     <p class="mb-0">Email</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">example@example.com</p>
+                                    <p class="text-muted mb-0">${emailEmployee}</p>
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <p class="mb-0">Phone</p>
+                                    <p class="mb-0">Цех</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">(097) 234-5678</p>
+                                    <p class="text-muted mb-0">"${departments}"</p>
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <p class="mb-0">Mobile</p>
+                                    <p class="mb-0">Должность</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">(098) 765-4321</p>
+                                    <p class="text-muted mb-0">${post}</p>
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <p class="mb-0">Address</p>
+                                    <p class="mb-0">Скидка</p>
                                 </div>
                                 <div class="col-sm-9">
-                                    <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                                    <p class="text-muted mb-0">${sale}%</p>
                                 </div>
                             </div>
                         </div>
@@ -100,15 +108,27 @@ fetch('http://localhost:8080/api/get_user')
             `<div class="card mb-4 border-bottom border-top border-start border-end border-primary shadow">
                     <div class="card-body text-center">
                         <img src="/image/${avatar}" alt="avatar"
-                             class="rounded-circle img-fluid" style="width: 150px;">
+                             class="rounded-circle img-fluid" style="width: 150px; height: 150px">
                         <h5 class="my-3">${username}</h5>
                         <p class="text-muted mb-1">${roles}</p>
                         <p class="text-muted mb-4" id="info">${info}</p>
-                        <div class="d-flex justify-content-center mb-2">
-                            <button type="button" class="btn btn-primary">Редактировать</button>
+                        <div class="d-flex justify-content-center mb-2 dropdown-center">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="dropdown">Редактировать</button>
+                                <ul class="dropdown-menu dropdown-menu-dark">
+                                    <li><button class="dropdown-item" style="border-radius: 7px" data-bs-toggle="modal" data-bs-target="#usernameAndAboutMeModal">Изменить логин и "Обо мне"</button></li>
+                                    <li><button class="dropdown-item" style="border-radius: 7px" data-bs-toggle="modal" data-bs-target="#passwordModal">Изменить пароль</button></li>     
+                                    <li><button class="dropdown-item" style="border-radius: 7px" data-bs-toggle="modal" data-bs-target="#avatarModal">Изменить фотографию профиля</button></li>     
+                                </ul>
                         </div>
                     </div>
             </div>`
+
+        let usernameModal = document.getElementById('username')
+        usernameModal.value = username
+
+        let aboutMe = document.getElementById('aboutMe')
+        aboutMe.value = info
+
 
         historyCard.innerHTML =
             `<div class="card mb-4 border-bottom border-top border-start border-end border-primary shadow">
@@ -205,3 +225,91 @@ function cartHistory() {
         })
 
 }
+
+function success() {
+    document.getElementById('saveButton').disabled = document.getElementById("username").value === "";
+}
+
+const saveButton = document.getElementById('saveButton')
+saveButton.addEventListener('click', () => {
+    fetch('http://localhost:8080/api/update_user_info', {
+        method: "PUT",
+        headers: {
+            'Accept': '*/*',
+            'Content-Type': 'text/plain',
+            'username': document.getElementById('username').value
+        },
+        body: document.getElementById('aboutMe').value
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            if(document.getElementById('username').value === username){
+                location.reload()
+            }
+            if(document.getElementById('username').value !== username){
+                location.href = `${URL}/logout`
+            }
+
+        })
+})
+
+const saveButtonPassword = document.getElementById('saveButtonPassword')
+saveButtonPassword.addEventListener('click', () => {
+    fetch('http://localhost:8080/api/update_user_password', {
+        method: "PUT",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'oldPassword': document.getElementById('oldPass').value,
+            'newPassword': document.getElementById('newPass').value,
+            'newPasswordConfirm': document.getElementById('newPassConf').value
+        }
+    })
+        .then(response => {
+            if(!response.ok){
+                return response.text().then(text => { throw Error(text)})
+            }
+            return response.text()
+        })
+        .then(data => {
+            console.log(data)
+            const errors = document.getElementById('errors')
+            errors.innerHTML = `<div class="form-control alert alert-success">${data}</div>`
+        })
+        .catch(response => {
+            console.log(response.message)
+            const errors = document.getElementById('errors')
+            errors.innerHTML = `<div class="form-control alert alert-danger">${response.message}</div>`
+        })
+})
+
+let formData = new FormData();
+const saveButtonAvatar = document.getElementById('saveButtonFile')
+saveButtonAvatar.addEventListener('click', () => {
+    const fileField = document.querySelector('input[type="file"]');
+    formData.append('avatar', fileField.files[0])
+
+    fetch('http://localhost:8080/api/update_user_avatar', {
+        method: "PUT",
+        body: formData
+    })
+        .then(response => {
+            if(!response.ok){
+                return response.text().then(text => { throw Error(text)})
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data)
+            location.reload()
+        })
+        .catch(reason => {
+            let errorJSON = JSON.parse(reason.message);
+            let errorAvatar = document.getElementById("errorAvatar");
+
+            //alert(test.message);
+            console.log(`Тест: ${errorJSON.message}`);
+            errorAvatar.innerHTML = `<div class="form-control alert alert-danger">${errorJSON.message}</div>`
+        })
+})
