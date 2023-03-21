@@ -18,7 +18,9 @@ fetch('http://localhost:8080/api/get_user')
     .then(data => {
         console.log(data)
         role = data.roles[0]
-        sale = data.employee.sale
+        if (data.employee !== null){
+            sale = data.employee.sale
+        }
 
         getItems()
     })
