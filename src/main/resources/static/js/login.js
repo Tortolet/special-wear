@@ -44,3 +44,13 @@ function incrCount(){
     let test = localStorage.getItem("count");
     console.log(test);
 }
+
+function checkPassword() {
+    const x = document.getElementById("floatingPassword");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+
+}

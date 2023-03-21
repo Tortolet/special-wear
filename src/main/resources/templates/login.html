@@ -52,6 +52,14 @@
 
               <div class="mb-3"><input id="floatingInput" class="form-control" type="text" name="username" placeholder="Логин" required></div>
               <div class="mb-3"><input id="floatingPassword" class="form-control" type="password" name="password" placeholder="Пароль" required></div>
+              <div class="mb-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onclick="checkPassword()">
+                  <label class="form-check-label" style="padding-right: 100px" for="flexCheckDefault">
+                    Показать пароль
+                  </label>
+                </div>
+              </div>
               <div class="mb-3" id="captcha"></div>
               <div class="mb-3" id="time"></div>
               <div class="mb-3"><button id="butSum" class="btn btn-primary shadow d-block w-100" type="submit" onclick="incrCount()">Войти</button></div>
